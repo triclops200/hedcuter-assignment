@@ -140,13 +140,9 @@ It seems like the hedcuter implementation crowds the dark areas more
 heavily (which makes sense, as it uses the darkness of a pixel when
 calculating the voronoi diagram as part of the distance). Also, the
 voronoi\_stippler seems more uniform in its final output.  See
-figures~\ref{hc_b} and~\ref{vs_b} for comparison of output. A problem
-with hedcuter arises here: with a disk size other than 1, it can
-overcrowd the voronoi diagram and cause overlap, but it doesn't look
-very good with a disk size of 1, as the disks are too small unless you
-use a larg number os disks.
+figures~\ref{hc_b} and~\ref{vs_b} for comparison of output.
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \begin{minipage}{.32\textwidth}
     \centering
@@ -161,11 +157,10 @@ use a larg number os disks.
     \includesvg[width=0.95\textwidth]{B3}
   \end{minipage}
   \caption{Three runs of 100, 1000, and 10000 disks using the hedcuter
-  program. Notice that it crowds more heavily towards black areas as
-  well as has oversized disks which overlap.}\label{hc_b}
+  program. Notice that it crowds more heavily towards black areas.}\label{hc_b}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[h]
   \centering
   \begin{minipage}{.32\textwidth}
     \centering
@@ -181,8 +176,7 @@ use a larg number os disks.
   \end{minipage}
   \caption{Three runs of 100, 1000, and 10000 disks using the
     voronoi\_stippler program. This output is more uniform across the
-    image. Also, note how the implementation bounds the circles to
-    stay within the voronoi cell, so there is no overlap.}\label{vs_b}
+    image.}\label{vs_b}
 \end{figure}
 
 \subsection{If you vary the number of the disks in the output images,
@@ -193,6 +187,45 @@ disks. Hedcuter gets slower the more disks were added. For example,
 for figure~\ref{hc_b}, the times to compute were 32, 38, and 43
 seconds respectively, however, for figure~\ref{vs_b}, the times to
 compute were 54, 46, and 7 seconds, respectively.
+
+\subsection{Does the type of image increase or descrease their difference?}
+
+Because the hedcuter method is more heavily weighted towards the dark
+areas, cartoon drawings like the klaymen image are very different than
+the voronoi\_stippler method. Because of the fact that hedcuter uses
+darkness as a part of its cell calculation step, you can also see that
+it concentrates more heavily along edges between colors, thus images
+with high contrast or lots of sudden value changes will have more
+focus on the edges than the voronoi\_stippler method.
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{C1}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{C2}
+  \end{minipage}
+  \caption{Hedcuter (left) vs voronoi\_stippler (right) for a cartoon
+    image. Note the concentration of stipples along the edges for the
+    hedcut implementation.}\label{vs_b}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{C3}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{C4}
+  \end{minipage}
+  \caption{Hedcuter (left) vs voronoi\_stippler (right) for another cartoon image.}\label{vs_b}
+\end{figure}
+
 
 
 \section{Improvement of hedcuter method}
