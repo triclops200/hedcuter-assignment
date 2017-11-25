@@ -1,3 +1,4 @@
+%%% TeX-command-extra-options: "-shell-escape"
 \documentclass[11pt]{article}
 
 \usepackage{latexsym}
@@ -10,6 +11,7 @@
 \usepackage{url}
 \usepackage[backref, colorlinks=true, citecolor=red, urlcolor=blue, pdfauthor={Jyh-Ming Lien}]{hyperref}
 \usepackage{svg}
+\usepackage{float}
 
 
 \newcommand{\handout}[5]{
@@ -118,7 +120,7 @@ voronoi\_stippler code uses the same seed each time it is run for the
 random number generator. The hedcuter code does not use the same seed
 each time.
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \begin{minipage}{.5\textwidth}
     \centering
@@ -160,7 +162,7 @@ figures~\ref{hc_b} and~\ref{vs_b} for comparison of output.
   program. Notice that it crowds more heavily towards black areas.}\label{hc_b}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \begin{minipage}{.32\textwidth}
     \centering
@@ -196,9 +198,11 @@ the voronoi\_stippler method. Because of the fact that hedcuter uses
 darkness as a part of its cell calculation step, you can also see that
 it concentrates more heavily along edges between colors, thus images
 with high contrast or lots of sudden value changes will have more
-focus on the edges than the voronoi\_stippler method.
+focus on the edges than the voronoi\_stippler method. See
+figures~\ref{c1} and~\ref{c2} for examples of strongly edged images,
+and~\ref{c3} for a human portrait.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \begin{minipage}{.5\textwidth}
     \centering
@@ -209,11 +213,12 @@ focus on the edges than the voronoi\_stippler method.
     \includesvg[width=0.95\textwidth]{C2}
   \end{minipage}
   \caption{Hedcuter (left) vs voronoi\_stippler (right) for a cartoon
-    image. Note the concentration of stipples along the edges for the
-    hedcut implementation.}\label{vs_b}
+    image. Note the concentration of stipples along the edges of the
+    character and the background circle for the hedcut
+    implementation.}\label{c1}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \begin{minipage}{.5\textwidth}
     \centering
@@ -223,9 +228,45 @@ focus on the edges than the voronoi\_stippler method.
     \centering
     \includesvg[width=0.95\textwidth]{C4}
   \end{minipage}
-  \caption{Hedcuter (left) vs voronoi\_stippler (right) for another cartoon image.}\label{vs_b}
+  \caption{Hedcuter (left) vs voronoi\_stippler (right) for another cartoon image.}\label{c2}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{C5}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{C6}
+  \end{minipage}
+  \caption{Hedcuter (left) vs voronoi\_stippler (right) for a
+    portrait. Note that I turned up the radius of the hedcuter disks
+    for this example so that one can better see the pattern
+    differences. Highlighted is an area where the hedcuter program
+    spent more cells in the fine detail.}\label{c3}
+\end{figure}
+
+\subsection{Are the outputs of these stippling methods different than
+  the hedcut images created by artists (e.g.\ those from the Wall
+  Street Journal)?}
+
+Very different. Figure~\ref{faces} shows an artist created hedcut
+image. Notice that instead of using just the darkness of a reference
+image for density stippling, it uses the countours of a 3d
+surface. This meta-information is not easily available to a program
+running on a photo, but, it creates much more natural looking images.
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{1\textwidth}
+    \centering
+    \includegraphics[width=0.95\textwidth]{faces.jpg}
+  \end{minipage}
+  \caption{Artist created stipple portraits. Retrieved
+    from~\cite{facesimg}}\label{faces}
+\end{figure}
 
 
 \section{Improvement of hedcuter method}
