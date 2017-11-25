@@ -63,6 +63,29 @@
 
 \subsection{voronoi method}
 
+The voronoi method is rather easy. It iterates a weighted relaxation
+based on the density function described in the paper. To compute the
+voronoi diagram, it uses Fortune's algorithm. When it's computing the
+centroid, it computes the clip lines of the cell and grabs a ``tile''
+by using the bounding box of the cell. It then scales the tile to the
+desired size (for use in subsampling). Then, it iterates over every
+pixel in the tile and uses the clip lines to determine if the pixel is
+in the cell. If it is in the cell, it updates both the weight of the
+cell and the maximum possible weight of the cell by using the
+intensity of the pixel. Then, it computes the radius of the stipple
+(if it is set to bound by the cell, it uses the biggest possible
+internal radius of the cell, otherwise, it uses the biggest possible
+radius that has an edge intersecting the stipple). It uses the ratio
+of the weight to the maximum possible weight to scale the radius of
+the stipple (the darker the image in the voronoi cell, the larger the
+radius). It then sets the center of the cell to the weighted
+centroid. It repeats the loop of computing the voronoi diagram then
+using weighted relaxation until the average displacement of the
+relaxation is very small (meaning that it didn't change much). When it
+is done, it just renders the diagram by sampling the cell point for
+color (if color mode is enabled, otherwise, it uses a black circle)
+and then rendering the stipples as circles of the computed radius.
+
 \section{Comparison of the two methods}
 
 \section{Improvement of hedcuter method}
