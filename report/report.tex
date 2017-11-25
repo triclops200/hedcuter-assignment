@@ -61,6 +61,27 @@
 
 \subsection{hedcuter method}
 
+This method uses the wavefront method to compute voronoi cells. First,
+it oversizes the image in order to do subpixel sampling. Next, it
+actually computes to which cell point to which each subpixel
+belongs. To do this, it maintains a weighted queue of points keyed by
+weighted distance from front (and if the weighted distances are the
+same, it chooses priority based on the the horizontal posistions, and
+if those are the same, the vertical positions). It then checks the
+current subpixel it is on to see if any of its neighbors could belong
+to a closer voronoi cell. If so, they are updated and the wavefront is
+updated to contain the changed subpixel. Once it is done with all of
+the wavefronts, it then does a reverse lookup for every pixel to add
+it to the cell's ownership list. It then computes the weighted
+centroid using the density function described
+in~\cite{stippling}. Afterwards, it moves the center of each cell to
+the respective centroid. It repeats this process until either the
+desired number of iterations is reached or the displacement reached
+some minimum. It then renders the stipples using average color of the
+cell in RGB space and the radius is either uniform to what was set or,
+if varying disk size is allowed, it's set to be scaled by the average
+value of cell's color.
+
 \subsection{voronoi method}
 
 The voronoi method is rather easy. It iterates a weighted relaxation
