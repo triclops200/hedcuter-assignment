@@ -2,7 +2,7 @@ TARGET=report
 
 PDF=$(TARGET).pdf
 ASPELL=aspell
-LATEX=pdflatex --interaction=nonstopmode
+LATEX=pdflatex --shell-escape -synctex=1 --interaction=nonstopmode
 BIBTEX=bibtex
 VIEWER=evince
 

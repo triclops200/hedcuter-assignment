@@ -9,20 +9,21 @@
 \usepackage{pseudocode}
 \usepackage{url}
 \usepackage[backref, colorlinks=true, citecolor=red, urlcolor=blue, pdfauthor={Jyh-Ming Lien}]{hyperref}
+\usepackage{svg}
 
 
 \newcommand{\handout}[5]{
   \noindent
   \begin{center}
-  \framebox{
-    \vbox{
-      \hbox to 5.78in { {\bf } \hfill #2 }
-      \vspace{4mm}
-      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
-      \vspace{2mm}
-      \hbox to 5.78in { {\em #3 \hfill #4} }
+    \framebox{
+      \vbox{
+        \hbox to 5.78in { {\bf } \hfill #2 }
+        \vspace{4mm}
+        \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+        \vspace{2mm}
+        \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
     }
-  }
   \end{center}
   \vspace*{4mm}
 }
@@ -51,7 +52,7 @@
 
 \parindent 0in
 \parskip 1.5ex
-%\renewcommand{\baselinestretch}{1.25}
+% \renewcommand{\baselinestretch}{1.25}
 
 \begin{document}
 
@@ -108,6 +109,91 @@ color (if color mode is enabled, otherwise, it uses a black circle)
 and then rendering the stipples as circles of the computed radius.
 
 \section{Comparison of the two methods}
+
+\subsection{Do you get the same results by running the same program on the same image multiple times?}
+
+The voronoi\_stippler program does give the same results each time,
+however, the hedcuter executable does not. This is because the the
+voronoi\_stippler code uses the same seed each time it is run for the
+random number generator. The hedcuter code does not use the same seed
+each time.
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{A1}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{A2}
+  \end{minipage}
+  \caption{Comparison of two runs of hedcuter on the same image using
+    the same parameters. Notice the hair (circled in red) is different}
+\end{figure}
+
+\subsection{If you vary the number of the disks in the output images,
+  do these implementations produce the same distribution in the final
+  image? If not, why?}
+
+It seems like the hedcuter implementation crowds the dark areas more
+heavily (which makes sense, as it uses the darkness of a pixel when
+calculating the voronoi diagram as part of the distance). Also, the
+voronoi\_stippler seems more uniform in its final output.  See
+figures~\ref{hc_b} and~\ref{vs_b} for comparison of output. A problem
+with hedcuter arises here: with a disk size other than 1, it can
+overcrowd the voronoi diagram and cause overlap, but it doesn't look
+very good with a disk size of 1, as the disks are too small unless you
+use a larg number os disks.
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{.32\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{B1}
+  \end{minipage}%
+  \begin{minipage}{.32\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{B2}
+  \end{minipage}
+  \begin{minipage}{.32\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{B3}
+  \end{minipage}
+  \caption{Three runs of 100, 1000, and 10000 disks using the hedcuter
+  program. Notice that it crowds more heavily towards black areas as
+  well as has oversized disks which overlap.}\label{hc_b}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{.32\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{B4}
+  \end{minipage}%
+  \begin{minipage}{.32\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{B5}
+  \end{minipage}
+  \begin{minipage}{.32\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{B6}
+  \end{minipage}
+  \caption{Three runs of 100, 1000, and 10000 disks using the
+    voronoi\_stippler program. This output is more uniform across the
+    image. Also, note how the implementation bounds the circles to
+    stay within the voronoi cell, so there is no overlap.}\label{vs_b}
+\end{figure}
+
+\subsection{If you vary the number of the disks in the output images,
+  is a method faster than the other?}
+
+Yes. The voronoi\_stippler method actually speeds up with more
+disks. Hedcuter gets slower the more disks were added. For example,
+for figure~\ref{hc_b}, the times to compute were 32, 38, and 43
+seconds respectively, however, for figure~\ref{vs_b}, the times to
+compute were 54, 46, and 7 seconds, respectively.
+
 
 \section{Improvement of hedcuter method}
 
