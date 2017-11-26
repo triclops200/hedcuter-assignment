@@ -69,7 +69,7 @@ it oversizes the image in order to do subpixel sampling. Next, it
 actually computes to which cell point to which each subpixel
 belongs. To do this, it maintains a weighted queue of points keyed by
 weighted distance from front (and if the weighted distances are the
-same, it chooses priority based on the the horizontal posistions, and
+same, it chooses priority based on the the horizontal positions, and
 if those are the same, the vertical positions). It then checks the
 current subpixel it is on to see if any of its neighbors could belong
 to a closer voronoi cell. If so, they are updated and the wavefront is
@@ -190,7 +190,7 @@ for figure~\ref{hc_b}, the times to compute were 32, 38, and 43
 seconds respectively, however, for figure~\ref{vs_b}, the times to
 compute were 54, 46, and 7 seconds, respectively.
 
-\subsection{Does the type of image increase or descrease their difference?}
+\subsection{Does the type of image increase or decrease their difference?}
 
 Because the hedcuter method is more heavily weighted towards the dark
 areas, cartoon drawings like the klaymen image are very different than
@@ -254,7 +254,7 @@ and~\ref{c3} for a human portrait.
 
 Very different. Figure~\ref{faces} shows an artist created hedcut
 image. Notice that instead of using just the darkness of a reference
-image for density stippling, it uses the countours of a 3d
+image for density stippling, it uses the contours of a 3d
 surface. This meta-information is not easily available to a program
 running on a photo, but, it creates much more natural looking images.
 
@@ -270,7 +270,7 @@ running on a photo, but, it creates much more natural looking images.
 
 
 \section{Improvement of hedcuter method}
-\subsection{Use a percepual color space}
+\subsection{Use a perceptual color space}
 The first thing I did was to use a perceptual color space (CIELab with
 illuminant D65) in order to get distance from white. And used that
 instead of the default value usage. This did not provide much visual
