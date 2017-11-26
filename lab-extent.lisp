@@ -162,3 +162,12 @@
                            (loop for b2 in (third *rgb-lab-extents*) maximizing
                                 (dist-3 l1 a1 b1 l2 a2 b2))))))))
 
+(defun get-max-lab-distance-white ()
+  ;; THIS IS A SUPER UGLY FUNCTION: I COULD HAVE USED MACROS TO MAKE
+  ;; IT SMALLER, BUT IT WORKS
+  (loop for r from 0 to 255 maximizing
+       (loop for g from 0 to 255 maximizing
+            (loop for b from 0 to 255 maximizing
+                 (apply #'dist-3 100 0.00524 -0.0103
+                        (multiple-value-list (rgb-lab r g b)))))))
+

@@ -1,7 +1,7 @@
 #ifndef _LAB_UTIL_H_
 #define _LAB_UTIL_H_
 #endif
-#define MAX_LAB_DISTANCE (291.48184f)
+#define MAX_LAB_DISTANCE (150.0)
 #include <math.h>
 
 typedef unsigned char uchar; 

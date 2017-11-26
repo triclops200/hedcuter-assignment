@@ -108,10 +108,10 @@ private:
 		float l, a, b;
 		rgb_lab(red, green, blue, l, a, b);
 		float d = dist3(l,a,b,
-		                100.0f, 0.0f, 0.0f);
+		                100.0f, 0.00525f, -0.01040f);
 
 		//note: 1 is added here to avoid 0 distance
-		return (MAX_LAB_DISTANCE - d + 1)*1.0f / (MAX_LAB_DISTANCE + 1);
+		return (d + 1) / (MAX_LAB_DISTANCE + 1);
 	}
 
 	//move the site to the center of its coverage

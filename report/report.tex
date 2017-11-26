@@ -270,17 +270,27 @@ running on a photo, but, it creates much more natural looking images.
 
 
 \section{Improvement of hedcuter method}
-\subsection{Use a different base color}
-Currently, the stippling method used only uses white as as the base
-color for concentrating points. I changed it to use any arbitrary RGB
-space color as a reference background and redefined the density
-function as the euclidean distance between the pixel and background in
-CIELab space (under a D65 illuminant). The maximum lab distance was
-calculated using the lab-extent.lisp file, which is used to normalize
-the distance between 0 and 1.
+\subsection{Use a percepual color space}
+The first thing I did was to use a perceptual color space (CIELab with
+illuminant D65) in order to get distance from white
 
-\subsection{Paralellized the move_sites function}
-Currently, the move_sites function is single threaded. In order to
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{D1}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{D2}
+  \end{minipage}
+  \caption{Comparison of two runs of hedcuter on the same image using
+    the same parameters. Notice the hair (circled in red) is different}
+\end{figure}
+
+
+\subsection{Paralellized the move\_sites function}
+Currently, the move\_sites function is single threaded. In order to
 increase performance, I have multithreaded it.
 
 \bibliographystyle{plain}
