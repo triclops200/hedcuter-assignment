@@ -63,6 +63,7 @@ void CVT::vor(cv::Mat &  img)
 		root.at<ushort>(pix.x, pix.y) = site_id++;
 		open.push_back(std::make_pair(d, pix));
 		c.coverage.clear();
+		c.edgepx.clear();
 	}
 	
 	std::make_heap(open.begin(), open.end(), compareCell);
@@ -113,6 +114,31 @@ void CVT::vor(cv::Mat &  img)
 		for (int y = 0; y < res.width; y++)
 		{
 			ushort rootid = root.at<ushort>(x, y);
+			bool isedge = false;
+			for(int dx = -1; dx < 2; dx++){
+				int nx = dx + x;
+				if(nx < 0 || nx >= res.height){
+					isedge = true;
+					break;
+				}
+				for(int dy = -1; dy < 2; dy++){
+					int ny = dy + y;
+					if(ny < 0 || ny >= res.width){
+						isedge = true;
+						break;
+					}
+					if(root.at<ushort>(nx, ny) != rootid){
+						isedge = true;
+						break;
+					}
+				}
+				if(isedge){
+					break;
+				}
+			}
+			if(isedge){
+				this->cells[rootid].edgepx.push_back(cv::Point(x,y));
+			}
 			this->cells[rootid].coverage.push_back(cv::Point(x,y));
 		}//end y
 	}//end x
@@ -171,6 +197,8 @@ void CVT::compute_weighted_cvt(cv::Mat &  img, std::vector<cv::Point2d> & sites)
 		if (debug) std::cout << "[" << iteration << "] max dist moved = " << max_dist_moved << std::endl;
 		iteration++;
 	} while (max_dist_moved>max_site_displacement && iteration < this->iteration_limit);
+	// bugfix: make sure we have the update voronoi things
+	vor(img); //compute voronoi
 
 	//if (debug) cv::waitKey();
 }

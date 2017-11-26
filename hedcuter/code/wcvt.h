@@ -53,6 +53,7 @@ struct VorCell
 
 	cv::Point site;
 	std::list<cv::Point> coverage;
+	std::list<cv::Point> edgepx;
 };
 
 bool compareCell(const std::pair<float, cv::Point>& p1, const std::pair<float, cv::Point>& p2);

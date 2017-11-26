@@ -286,7 +286,8 @@ improvement on its own, but came in handy for the next two improvements.
     \centering
     \includesvg[width=0.95\textwidth]{D2}
   \end{minipage}
-  \caption{Note that the images look basically the same.}
+  \caption{Left is before perceptual weighting, right is after. Note
+    that the images look basically the same.}
 \end{figure}
 
 \subsection{Use a variable background color}
@@ -306,17 +307,27 @@ from the background color.
     \centering
     \includesvg[width=0.95\textwidth]{E2}
   \end{minipage}
-  \caption{Note that the images look basically the same.}
+  \caption{Variable colored backgrounds}
 \end{figure}
 
 \subsection{Better Disk Rendering}
-I liked the output scaling of the disks of the internally bounded
+I liked the output scaling of the disks in the bounded by cell size in
 voronoi\_stippler better, so I replicated that in hedcuter.
 
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{F1}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{F2}
+  \end{minipage}
+  \caption{Note how the images have better scaling of the stipples}
+\end{figure}
 
-\subsection{Paralellized the move\_sites function}
-Currently, the move\_sites function is single threaded. In order to
-increase performance, I have multithreaded it.
+
 
 \bibliographystyle{plain}
 \bibliography{report}

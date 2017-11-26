@@ -112,6 +112,7 @@ void Hedcut::create_disks(cv::Mat & img, CVT & cvt)
 		//compute avg intensity
 		float total = 0;
 		unsigned int r = 0, g = 0, b = 0;
+		float min = -1;
 		for (auto & resizedPix : cell.coverage)
 		{
 			cv::Point pix(resizedPix.x / subpixels, resizedPix.y / subpixels);
@@ -119,6 +120,16 @@ void Hedcut::create_disks(cv::Mat & img, CVT & cvt)
 			r += img.at<cv::Vec3b>(pix.x, pix.y)[2];
 			g += img.at<cv::Vec3b>(pix.x, pix.y)[1];
 			b += img.at<cv::Vec3b>(pix.x, pix.y)[0];
+		}
+		for(auto& resizedPix : cell.edgepx){
+			cv::Point pix(resizedPix.x / subpixels, resizedPix.y / subpixels);
+			float d = sqrt(pow(pix.x-cell.site.x,2.0) + pow(pix.y-cell.site.y,2.0));
+			if(d < min || min < 0){
+				min = d;
+			}
+		}
+		if(min < 1){
+			min = 1;
 		}
 		float avg_v = (total/ cell.coverage.size());
 		r = floor(r / cell.coverage.size());
@@ -130,7 +141,7 @@ void Hedcut::create_disks(cv::Mat & img, CVT & cvt)
 		disk.center.x = cell.site.y; //x = col
 		disk.center.y = cell.site.x; //y = row
 		disk.color = (black_disk) ? cv::Scalar::all(0) : cv::Scalar(r, g, b, 0.0);
-		disk.radius = (uniform_disk_size) ? disk_size : disk_size*avg_v;
+		disk.radius = (uniform_disk_size) ? disk_size : disk_size*min*avg_v;
 
 		//remember
 		this->disks.push_back(disk);
