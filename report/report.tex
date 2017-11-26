@@ -272,7 +272,9 @@ running on a photo, but, it creates much more natural looking images.
 \section{Improvement of hedcuter method}
 \subsection{Use a percepual color space}
 The first thing I did was to use a perceptual color space (CIELab with
-illuminant D65) in order to get distance from white
+illuminant D65) in order to get distance from white. And used that
+instead of the default value usage. This did not provide much visual
+improvement on its own, but came in handy for the next two improvements.
 
 \begin{figure}[H]
   \centering
@@ -284,8 +286,7 @@ illuminant D65) in order to get distance from white
     \centering
     \includesvg[width=0.95\textwidth]{D2}
   \end{minipage}
-  \caption{Comparison of two runs of hedcuter on the same image using
-    the same parameters. Notice the hair (circled in red) is different}
+  \caption{Note that the images look basically the same.}
 \end{figure}
 
 
