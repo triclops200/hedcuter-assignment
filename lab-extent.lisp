@@ -127,7 +127,7 @@
                append (loop for b from 0 to 255
                          collect (multiple-value-list (rgb-lab r g b))))))
 
-(defun get-rgb-lab-extants ()
+(defun get-rgb-lab-extents ()
   (let ((lab-list (get-lab-list)))
     (loop for (l a b) in lab-list
        maximizing l into mal
@@ -149,16 +149,16 @@
            (square (- z1 z2)))))
 
 ;; using the above code, I get ((100.0 0.0) (98.254234 -86.18462) (94.48248 -107.863686))
-(defparameter *rgb-lab-extants* '((100.0 0.0) (98.254234 -86.18462) (94.48248 -107.863686)))
+(defparameter *rgb-lab-extents* '((100.0 0.0) (98.254234 -86.18462) (94.48248 -107.863686)))
 
 (defun get-max-lab-distance ()
   ;; THIS IS A SUPER UGLY FUNCTION: I COULD HAVE USED MACROS TO MAKE
   ;; IT SMALLER, BUT IT WORKS
-  (loop for l1 in (first *rgb-lab-extants*) maximizing
-       (loop for a1 in (second *rgb-lab-extants*) maximizing
-            (loop for b1 in (third *rgb-lab-extants*) maximizing
-                 (loop for l2 in (first *rgb-lab-extants*) maximizing
-                      (loop for a2 in (second *rgb-lab-extants*) maximizing
-                           (loop for b2 in (third *rgb-lab-extants*) maximizing
+  (loop for l1 in (first *rgb-lab-extents*) maximizing
+       (loop for a1 in (second *rgb-lab-extents*) maximizing
+            (loop for b1 in (third *rgb-lab-extents*) maximizing
+                 (loop for l2 in (first *rgb-lab-extents*) maximizing
+                      (loop for a2 in (second *rgb-lab-extents*) maximizing
+                           (loop for b2 in (third *rgb-lab-extents*) maximizing
                                 (dist-3 l1 a1 b1 l2 a2 b2))))))))
 

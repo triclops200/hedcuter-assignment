@@ -32,6 +32,10 @@
 #else
 #include <GL/glut.h>
 #endif
+#include "labutil.h"
+
+
+
 
 
 extern int argc_GPU;
@@ -98,8 +102,16 @@ private:
 	//convert a color intensity to distance between 0~1
 	inline float color2dist(cv::Mat &  img, cv::Point& p)
 	{
-		//note: 256 is used here instead of 255 to prevent 0 distance.
-		return (256 - img.at<uchar>(p.x, p.y))*1.0f / 256;
+		uchar red = img.at<cv::Vec3b>(p.x, p.y)[2];
+		uchar green = img.at<cv::Vec3b>(p.x, p.y)[1];
+		uchar blue = img.at<cv::Vec3b>(p.x, p.y)[0];
+		float l, a, b;
+		rgb_lab(red, green, blue, l, a, b);
+		float d = dist3(l,a,b,
+		                100.0f, 0.0f, 0.0f);
+
+		//note: 1 is added here to avoid 0 distance
+		return (MAX_LAB_DISTANCE - d + 1)*1.0f / (MAX_LAB_DISTANCE + 1);
 	}
 
 	//move the site to the center of its coverage
@@ -167,3 +179,4 @@ private:
 		return max_offset;
 	}
 };
+

@@ -16,7 +16,7 @@ void CVT::vor(cv::Mat &  img)
 {
 	//Generate virtual high resolution image
 	cv::Size res(img.size().width * subpixels, img.size().height * subpixels);
-	cv::Mat resizedImg(res.width, res.height, CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat resizedImg(res.width, res.height, CV_LOAD_IMAGE_UNCHANGED);
 	cv::resize(img, resizedImg, res, 0, 0, CV_INTER_LINEAR);
 
 	cv::Mat dist(res, CV_32F, cv::Scalar::all(FLT_MAX));

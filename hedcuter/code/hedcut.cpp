@@ -49,7 +49,7 @@ bool Hedcut::build(cv::Mat & input_image, int n)
 	if (cvt.gpu)
 		cvt.compute_weighted_cvt_GPU(input_image, pts);
 	else
-		cvt.compute_weighted_cvt(grayscale, pts);	//*****
+		cvt.compute_weighted_cvt(input_image, pts);	//*****
 
 	endTime = clock();
 	std::cout << "Total time: "<< ((double)(endTime - startTime)) / CLOCKS_PER_SEC << std::endl;
