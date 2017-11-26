@@ -274,7 +274,10 @@ running on a photo, but, it creates much more natural looking images.
 The first thing I did was to use a perceptual color space (CIELab with
 illuminant D65) in order to get distance from white. And used that
 instead of the default value usage. This did not provide much visual
-improvement on its own, but came in handy for the next two improvements.
+improvement on its own other than reducing some of the unnatural
+clustering of points near edges, but came in handy for the next two
+improvements. Note that you can zoom in on the pdf to see the images
+better as I included the svgs directly.  \nocite{tree}
 
 \begin{figure}[H]
   \centering
@@ -287,7 +290,8 @@ improvement on its own, but came in handy for the next two improvements.
     \includesvg[width=0.95\textwidth]{D2}
   \end{minipage}
   \caption{Left is before perceptual weighting, right is after. Note
-    that the images look basically the same.}
+    that the images look basically the same, with a little less
+    unnatural clustering near the edges of objects.}
 \end{figure}
 
 \subsection{Use a variable background color}
@@ -295,13 +299,13 @@ The next thing I did is allowed an image to specify a different
 background color than white. It takes this into account for the
 density function and creates a more optimal stipple for the chosen
 background color. The disk size is now based on the average distance
-from the background color.
+from the background color. 
 
 \begin{figure}[H]
   \centering
   \begin{minipage}{.5\textwidth}
     \centering
-    \includesvg[width=0.95\textwidth]{E1}
+    \includesvg[width=0.95\textwidth]{D2}
   \end{minipage}%
   \begin{minipage}{.5\textwidth}
     \centering
@@ -312,19 +316,21 @@ from the background color.
 
 \subsection{Better Disk Rendering}
 I liked the output scaling of the disks in the bounded by cell size in
-voronoi\_stippler better, so I replicated that in hedcuter.
+voronoi\_stippler better, so I replicated that in hedcuter. This
+creates much more balanced images, in my opinion.
 
 \begin{figure}[H]
   \centering
   \begin{minipage}{.5\textwidth}
     \centering
-    \includesvg[width=0.95\textwidth]{F1}
+    \includesvg[width=0.95\textwidth]{E2}
   \end{minipage}%
   \begin{minipage}{.5\textwidth}
     \centering
-    \includesvg[width=0.95\textwidth]{F2}
+    \includesvg[width=0.95\textwidth]{F1}
   \end{minipage}
-  \caption{Note how the images have better scaling of the stipples}
+  \caption{Default on the left, new scaling on the right. Note how the
+    image has better scaling of the stipples}
 \end{figure}
 
 
