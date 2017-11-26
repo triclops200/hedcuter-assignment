@@ -270,6 +270,16 @@ running on a photo, but, it creates much more natural looking images.
 
 
 \section{Improvement of hedcuter method}
+\subsection{Use a different base color}
+Currently, the stippling method used only uses white as as the base
+color for concentrating points. I changed it to use any arbitrary RGB
+space color as a reference background and redefined the density
+function as the euclidean distance between the pixel and background in
+CIELab space (under a D65 illuminant).
+
+\subsection{Paralellized the move_sites function}
+Currently, the move_sites function is single threaded. In order to
+increase performance, I have multithreaded it.
 
 \bibliographystyle{plain}
 \bibliography{report}
