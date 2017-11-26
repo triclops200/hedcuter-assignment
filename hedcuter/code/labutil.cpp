@@ -1,10 +1,13 @@
 #include "labutil.h"
+#include <cstdio>
 // CONSTANTS
 // USING A D65 illuminant
 float inv255 = 1.0f/255.0;
 float ref_x = 95.047f;
 float ref_y = 100.0f;
 float ref_z = 108.883f;
+float bgl, bga, bgb;
+float max_lab_distance;
 
 float square(float x)
 {
@@ -88,4 +91,30 @@ void rgb_lab(uchar red, uchar green, uchar blue,
 	float x, y, z;
 	rgb_xyz(red, green, blue, x, y, z);
 	xyz_lab(x, y, z, l, a, b);
+}
+
+float get_max_dist()
+{
+	float max = 0;
+	for(int r = 0; r < 256; r++){
+		for(int g = 0; g < 256; g++){
+			for(int b = 0; b < 256; b++){
+				float l2,a2,b2;
+				rgb_lab(r,g,b,l2,a2,b2);
+				float d = dist3(bgl,bga,bgb,l2,a2,b2);
+				if(d > max){
+					max = d;
+				}
+			}
+		}
+	}
+	return max;
+}
+
+void init_lab_with_bg(uchar red, uchar green, uchar blue)
+{
+	rgb_lab(red, green, blue, bgl, bga, bgb);
+	printf("%f\n%f\n%f\n",bgl,bga,bgb);
+	max_lab_distance = get_max_dist();
+
 }

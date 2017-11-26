@@ -24,17 +24,17 @@ inline string getImageName(const string & img_name)
 
 int main(int argc, char ** argv)
 {
-
 	//get imput image
 	if (argc < 2)
 	{
-		cout << " Usage: " << argv[0] << " [-n #_of_disks -radius disk_radius -uniform_radius -iteration #_of_CVT_iterations -maxD max_CVF_site_displacement] image_file_name" << endl;
+		cout << " Usage: " << argv[0] << " [-n #_of_disks -radius disk_radius -uniform_radius -iteration #_of_CVT_iterations -maxD max_CVF_site_displacement -bgcol red green blue] image_file_name" << endl;
 		return -1;
 	}
 
 	Hedcut hedcut;
 	bool debug = false;                //output debugging information
 	int sample_size = 1000;
+	int bg_r=255,bg_g=255,bg_b=255;
 
 	string img_filename;
 	for (int i = 1; i < argc; i++)
@@ -52,11 +52,17 @@ int main(int argc, char ** argv)
 			else if (string(argv[i]) == "-avg" && i + 1 < argc) hedcut.average_termination = true;
 			else if (string(argv[i]) == "-gpu" && i + 1 < argc) hedcut.gpu = true;
 			else if (string(argv[i]) == "-subpixel" && i + 1 < argc) hedcut.subpixels = atoi(argv[++i]);
+			else if (string(argv[i]) == "-bgcol" && i + 3 < argc) {
+				bg_r = atoi(argv[++i]);
+				bg_g = atoi(argv[++i]);
+				bg_b = atoi(argv[++i]);
+			}
 			else
 				cerr << "! Error: Unknown flag " << argv[i] << ".  Ignored." << endl;
 		}
 		else img_filename = argv[i];
 	}
+	init_lab_with_bg(bg_r, bg_g, bg_b);
 
 	cv::Mat image = cv::imread(img_filename.c_str(), CV_LOAD_IMAGE_COLOR);   // Read the file
 
@@ -100,6 +106,11 @@ int main(int argc, char ** argv)
 	ss << img_name << "-" << sample_size << ".svg";
 	svg::Dimensions dimensions(image.size().width, image.size().height);
 	svg::Document doc(ss.str(), svg::Layout(dimensions, svg::Layout::TopLeft));
+	svg::Color bg(bg_r, bg_g, bg_b);
+	svg::Rectangle rect(svg::Point(0,0),
+	                    image.size().width, image.size().height,
+	                    svg::Fill(bg));
+	doc << rect;
 
 	for (auto& disk : hedcut.getDisks())
 	{

@@ -289,6 +289,30 @@ improvement on its own, but came in handy for the next two improvements.
   \caption{Note that the images look basically the same.}
 \end{figure}
 
+\subsection{Use a variable background color}
+The next thing I did is allowed an image to specify a different
+background color than white. It takes this into account for the
+density function and creates a more optimal stipple for the chosen
+background color. The disk size is now based on the average distance
+from the background color.
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{E1}
+  \end{minipage}%
+  \begin{minipage}{.5\textwidth}
+    \centering
+    \includesvg[width=0.95\textwidth]{E2}
+  \end{minipage}
+  \caption{Note that the images look basically the same.}
+\end{figure}
+
+\subsection{Better Disk Rendering}
+I liked the output scaling of the disks of the internally bounded
+voronoi\_stippler better, so I replicated that in hedcuter.
+
 
 \subsection{Paralellized the move\_sites function}
 Currently, the move\_sites function is single threaded. In order to

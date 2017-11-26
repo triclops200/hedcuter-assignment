@@ -109,7 +109,7 @@ void CVT::vor_GPU()
 	{
 		cv::Point pix(cells[i].site.x, cells[i].site.y);
 		root.at<ushort>(pix.x, pix.y) = i;
-		d = (256 - (float)grayscale.at<uchar>(pix.x, pix.y))*1.0f / 256;
+		d = color2dist(input_image, pix);
 		
 		r = input_image.at<cv::Vec3b>(pix.x, pix.y)[2];
 		g = input_image.at<cv::Vec3b>(pix.x, pix.y)[1];

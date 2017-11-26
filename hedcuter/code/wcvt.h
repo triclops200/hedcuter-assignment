@@ -40,7 +40,7 @@
 
 extern int argc_GPU;
 extern char** argv_GPU;
-
+float color2dist(cv::Mat &  img, cv::Point& p);
 struct VorCell
 {
 	VorCell(){}
@@ -100,19 +100,6 @@ private:
 	static float move_sites_GPU();
 	
 	//convert a color intensity to distance between 0~1
-	inline float color2dist(cv::Mat &  img, cv::Point& p)
-	{
-		uchar red = img.at<cv::Vec3b>(p.x, p.y)[2];
-		uchar green = img.at<cv::Vec3b>(p.x, p.y)[1];
-		uchar blue = img.at<cv::Vec3b>(p.x, p.y)[0];
-		float l, a, b;
-		rgb_lab(red, green, blue, l, a, b);
-		float d = dist3(l,a,b,
-		                100.0f, 0.00525f, -0.01040f);
-
-		//note: 1 is added here to avoid 0 distance
-		return (d + 1) / (MAX_LAB_DISTANCE + 1);
-	}
 
 	//move the site to the center of its coverage
 	inline float move_sites(cv::Mat &  img, VorCell & cell)
@@ -128,12 +115,12 @@ private:
 		float total = 0;
 		cv::Point2d new_pos(0, 0);
 		for (auto& c : cell.coverage)
-		{
-			float d = color2dist(resizedImg, c);
-			new_pos.x += d*c.x;
-			new_pos.y += d*c.y;
-			total += d;
-		}
+			{
+				float d = color2dist(resizedImg, c);
+				new_pos.x += d*c.x;
+				new_pos.y += d*c.y;
+				total += d;
+			}
 
 		//normalize
 		new_pos.x /= total;
@@ -156,26 +143,26 @@ private:
 	{
 		float max_offset = 0;
 		if (average_termination)
-		{
-			for (auto& cell : this->cells)
 			{
-				//cout << "coverage size=" << cvt.cells[607].coverage.size() << endl;
-				float offset = move_sites(img, cell);
-				max_offset += offset;
-			}
+				for (auto& cell : this->cells)
+					{
+						//cout << "coverage size=" << cvt.cells[607].coverage.size() << endl;
+						float offset = move_sites(img, cell);
+						max_offset += offset;
+					}
 
-			max_offset /= this->cells.size();
-		}
-		else
-		{
-			for (auto& cell : this->cells)
-			{
-				//cout << "coverage size=" << cvt.cells[607].coverage.size() << endl;
-				float offset = move_sites(img, cell);
-				if (offset > max_offset)
-					max_offset = offset;
+				max_offset /= this->cells.size();
 			}
-		}
+		else
+			{
+				for (auto& cell : this->cells)
+					{
+						//cout << "coverage size=" << cvt.cells[607].coverage.size() << endl;
+						float offset = move_sites(img, cell);
+						if (offset > max_offset)
+							max_offset = offset;
+					}
+			}
 		return max_offset;
 	}
 };

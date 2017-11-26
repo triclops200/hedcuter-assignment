@@ -1,6 +1,20 @@
 #include "wcvt.h"
 #include <iostream>
+extern float max_lab_distance;
+extern float bgl, bga, bgb;
+float color2dist(cv::Mat &  img, cv::Point& p)
+{
+	uchar red = img.at<cv::Vec3b>(p.x, p.y)[2];
+	uchar green = img.at<cv::Vec3b>(p.x, p.y)[1];
+	uchar blue = img.at<cv::Vec3b>(p.x, p.y)[0];
+	float l, a, b;
+	rgb_lab(red, green, blue, l, a, b);
+	float d = dist3(l,a,b,
+	                bgl,bga,bgb);
 
+	//note: 1 is added here to avoid 0 distance
+	return (d + 1) / (max_lab_distance + 1);
+}
 bool compareCell(const std::pair<float, cv::Point>& p1, const std::pair<float, cv::Point>& p2)
 {
 	if (p1.first == p2.first)
